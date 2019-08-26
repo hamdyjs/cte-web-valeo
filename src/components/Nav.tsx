@@ -20,7 +20,7 @@ const Nav: React.FC = () => {
             </button>
 
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                <img src="logo.png" width="128" height="64" />
+                <img src="logo.png" width="128" height="64" alt="Valeo Logo" />
                 <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
                     <li className="nav-item dropdown">
                         <a className="nav-link dropdown-toggle" href="index.html" id="navbarDropdown" role="button"
