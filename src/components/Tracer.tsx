@@ -25,9 +25,11 @@ const Tracer: React.FC = () => {
                     {signals.map((signal, i) => {
                         return (
                             <div className="form-check ml-3" key={i}>
-                                <input onChange={onSignalCheckedChange} className="form-check-input" type="checkbox" name="signal" value={signal} id={"signal"+ i}/>
-                                <label className={"form-check-label " + (activeSignals.includes(signal) ? "text-success" : "text-danger")}
-                                       htmlFor={"signal"+ i}>{signal}</label>
+                                <input onChange={onSignalCheckedChange} className="form-check-input" type="checkbox"
+                                       name="signal" value={signal} id={"signal"+ i}/>
+                                <label className={"form-check-label " +
+                                    (activeSignals.includes(signal) ? "text-success" : "text-danger")}
+                                    htmlFor={"signal"+ i}>{signal}</label>
                             </div>
                         );
                     })}
@@ -35,7 +37,6 @@ const Tracer: React.FC = () => {
             </div>
             <div id="page-content-wrapper">
                 <div className="container-fluid">
-                    
                 </div>
             </div>
         </div>
