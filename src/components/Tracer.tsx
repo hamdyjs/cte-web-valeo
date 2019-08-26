@@ -26,7 +26,8 @@ const Tracer: React.FC = () => {
                         return (
                             <div className="form-check ml-3" key={i}>
                                 <input onChange={onSignalCheckedChange} className="form-check-input" type="checkbox" name="signal" value={signal} id={"signal"+ i}/>
-                                <label className="form-check-label" htmlFor={"signal"+ i}>{signal}</label>
+                                <label className={"form-check-label " + (activeSignals.includes(signal) ? "text-success" : "text-danger")}
+                                       htmlFor={"signal"+ i}>{signal}</label>
                             </div>
                         );
                     })}
