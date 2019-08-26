@@ -1,6 +1,11 @@
 import React from "react";
+import {Link} from "react-router-dom";
 
 const Nav: React.FC = () => {
+    let pages = [
+        {path: "tracer", name: "Tracer"},
+    ];
+
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
             {/*<button type="button" className="btn btn-primary"*/}
@@ -22,10 +27,7 @@ const Nav: React.FC = () => {
                             CTE Web Interface
                         </a>
                         <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a className="dropdown-item" href="/tracer">Signal Tracer</a>
-                            {/*<a className="dropdown-item" href="index.html">Another action</a>*/}
-                            {/*<div className="dropdown-divider"></div>*/}
-                            {/*<a className="dropdown-item" href="index.html">Something else here</a>*/}
+                            {pages.map((page, i) => <Link key={i} className="dropdown-item" to={page.path}>{page.name}</Link>)}
                         </div>
                     </li>
                 </ul>

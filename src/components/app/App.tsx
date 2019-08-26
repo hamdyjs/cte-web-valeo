@@ -10,7 +10,7 @@ const App: React.FC = () => {
     return (
         <BrowserRouter>
             <div id="container">
-                <Nav/>
+                <Nav />
                 <div className="d-flex" id="wrapper">
                     <Switch>
                         <Route path="/tracer" component={Tracer} />
