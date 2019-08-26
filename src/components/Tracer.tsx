@@ -1,17 +1,25 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 
 const Tracer: React.FC = () => {
+    let [signals, setSignals] = useState(([] as string[]));
+
+    useEffect(() => {
+        setTimeout(() => setSignals(["Signal 1", "Signal 2", "Signal 3", "Signal 4"]), 3000);
+    }, []);
+
     return (
         <div>
             <div className="bg-light border-right" id="sidebar-wrapper">
-                <div className="sidebar-heading">Start Bootstrap</div>
+                <div className="sidebar-heading">Signals</div>
                 <div className="list-group list-group-flush">
-                    <a href="index.html" className="list-group-item list-group-item-action bg-light">Dashboard</a>
-                    <a href="index.html" className="list-group-item list-group-item-action bg-light">Shortcuts</a>
-                    <a href="index.html" className="list-group-item list-group-item-action bg-light">Overview</a>
-                    <a href="index.html" className="list-group-item list-group-item-action bg-light">Events</a>
-                    <a href="index.html" className="list-group-item list-group-item-action bg-light">Profile</a>
-                    <a href="index.html" className="list-group-item list-group-item-action bg-light">Status</a>
+                    {signals.map((signal, i) => {
+                        return (
+                            <div className="form-check ml-3">
+                                <input className="form-check-input" type="checkbox" name="signal" value={signal} id={"signal"+ i}/>
+                                <label className="form-check-label" htmlFor={"signal"+ i}>{signal}</label>
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
             <div id="page-content-wrapper">
