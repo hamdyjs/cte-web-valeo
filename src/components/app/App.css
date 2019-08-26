@@ -8,7 +8,7 @@ body {
 }
 
 #sidebar-wrapper {
-    width: 280px;
+    width: 20vw;
     position: fixed;
     min-height: 100%;
     margin-left: -15rem;
@@ -24,12 +24,12 @@ body {
 }
 
 #sidebar-wrapper .list-group {
-    width: 280px;
+    width: 20vw;
 }
 
 #page-content-wrapper {
-    margin-left: 280px;
-    min-width: 100vw;
+    margin-left: 20vw;
+    width: 80vw;
 }
 
 #wrapper.toggled #sidebar-wrapper {
@@ -43,7 +43,6 @@ body {
 
     #page-content-wrapper {
         min-width: 0;
-        width: 100%;
     }
 
     #wrapper.toggled #sidebar-wrapper {
