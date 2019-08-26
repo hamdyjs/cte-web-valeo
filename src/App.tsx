@@ -18,7 +18,9 @@ const App: React.FC = () => {
             <div id="page-content-wrapper">
                 <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
                     <button type="button" className="btn btn-primary"
-                            onClick={(e) => $("#wrapper").toggleClass("toggled")}>Toggle Menu</button>
+                            onClick={(e) => $("#wrapper").toggleClass("toggled")}>
+                        <i className="fa fa-bars"></i>
+                    </button>
 
                     <button className="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
