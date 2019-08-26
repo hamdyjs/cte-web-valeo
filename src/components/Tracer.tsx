@@ -4,6 +4,7 @@ const Tracer: React.FC = () => {
     let [signals, setSignals] = useState(([] as string[]));
 
     useEffect(() => {
+        // TODO: Integrate with the CTE server
         setTimeout(() => setSignals(["Signal 1", "Signal 2", "Signal 3", "Signal 4"]), 3000);
     }, []);
 
