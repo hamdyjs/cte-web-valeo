@@ -1,12 +1,21 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, ChangeEvent} from "react";
 
 const Tracer: React.FC = () => {
     let [signals, setSignals] = useState(([] as string[]));
+    let [activeSignals, setActiveSignals] = useState([] as string[]);
 
     useEffect(() => {
         // TODO: Integrate with the CTE server
-        setTimeout(() => setSignals(["Signal 1", "Signal 2", "Signal 3", "Signal 4"]), 3000);
+        setTimeout(() => setSignals(["Signal 1", "Signal 2", "Signal 3", "Signal 4"]), 500);
     }, []);
+
+    function onSignalCheckedChange({target: {value, checked}}: ChangeEvent<HTMLInputElement>) {
+        let newActiveSignals = [...activeSignals];
+        if (checked && !newActiveSignals.includes(value)) newActiveSignals.push(value);
+        else if (!checked && newActiveSignals.includes(value)) newActiveSignals = newActiveSignals.filter(s => s !== value);
+
+        setActiveSignals(newActiveSignals);
+    }
 
     return (
         <div>
@@ -15,8 +24,8 @@ const Tracer: React.FC = () => {
                 <div className="list-group list-group-flush">
                     {signals.map((signal, i) => {
                         return (
-                            <div className="form-check ml-3">
-                                <input className="form-check-input" type="checkbox" name="signal" value={signal} id={"signal"+ i}/>
+                            <div className="form-check ml-3" key={i}>
+                                <input onChange={onSignalCheckedChange} className="form-check-input" type="checkbox" name="signal" value={signal} id={"signal"+ i}/>
                                 <label className="form-check-label" htmlFor={"signal"+ i}>{signal}</label>
                             </div>
                         );
