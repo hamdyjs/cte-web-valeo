@@ -4,6 +4,7 @@ import './App.css';
 
 import Nav from "../Nav";
 import Tracer from "../Tracer";
+import Error404 from "../Error404";
 
 const App: React.FC = () => {
     return (
@@ -13,7 +14,8 @@ const App: React.FC = () => {
                 <div className="d-flex" id="wrapper">
                     <Switch>
                         <Route path="/tracer" component={Tracer} />
-                        <Redirect exact path="/" to="/tracer"/>
+                        <Redirect exact path="/" to="/tracer" />
+                        <Route component={Error404} />
                     </Switch>
                 </div>
             </div>
