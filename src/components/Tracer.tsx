@@ -8,13 +8,16 @@ const Tracer: React.FC = () => {
 
     useEffect(() => {
         // TODO: Integrate with the CTE server
-        setTimeout(() => setSignals([
-            new Signal("Signal 1"),
-            new Signal("Signal 2"),
-            new Signal("Signal 3"),
-            new Signal("Signal 4"),
-        ]), 2000);
-        setTimeout(() => setLoading(false), 2000);
+        setTimeout(() => {
+            setSignals([
+                new Signal("Signal 1"),
+                new Signal("Signal 2"),
+                new Signal("Signal 3"),
+                new Signal("Signal 4"),
+            ]);
+
+            setLoading(false);
+        }, 500);
     }, []);
 
     function onSignalCheckedChange({target: {value, checked}}: ChangeEvent<HTMLInputElement>) {
