@@ -1,21 +1,30 @@
 import React, {useState, useEffect, ChangeEvent} from "react";
+import Signal from "../classes/Signal";
 
 const Tracer: React.FC = () => {
     let [loading, setLoading] = useState(true);
-    let [signals, setSignals] = useState(([] as string[]));
-    let [activeSignals, setActiveSignals] = useState([] as string[]);
+    let [signals, setSignals] = useState(([] as Signal[]));
+    let [activeSignals, setActiveSignals] = useState([] as Signal[]);
 
     useEffect(() => {
         // TODO: Integrate with the CTE server
-        setTimeout(() => setSignals(["Signal 1", "Signal 2", "Signal 3", "Signal 4"]), 2000);
+        setTimeout(() => setSignals([
+            new Signal("Signal 1"),
+            new Signal("Signal 2"),
+            new Signal("Signal 3"),
+            new Signal("Signal 4"),
+        ]), 2000);
         setTimeout(() => setLoading(false), 2000);
     }, []);
 
     function onSignalCheckedChange({target: {value, checked}}: ChangeEvent<HTMLInputElement>) {
+        let signal = signals.find(s => s.name === value);
+        if (!signal) return;
+
         let newActiveSignals = [...activeSignals];
-        if (checked && !newActiveSignals.includes(value)) newActiveSignals.push(value);
-        else if (!checked && newActiveSignals.includes(value))
-            newActiveSignals = newActiveSignals.filter(s => s !== value);
+        let found = !!newActiveSignals.find(s => s.name === (signal && signal.name));
+        if (checked && !found) newActiveSignals.push(signal);
+        else if (!checked && found) newActiveSignals = newActiveSignals.filter(s => s.name !== (signal && signal.name));
 
         setActiveSignals(newActiveSignals);
     }
@@ -35,10 +44,11 @@ const Tracer: React.FC = () => {
                                 return (
                                     <div className="form-check ml-3" key={i}>
                                         <input onChange={onSignalCheckedChange} className="form-check-input"
-                                               type="checkbox" name="signal" value={signal} id={"signal"+ i}/>
+                                               type="checkbox" name="signal" value={signal.name} id={"signal"+ i}/>
                                         <label className={"form-check-label " +
-                                            (activeSignals.includes(signal) ? "text-success" : "text-danger")}
-                                            htmlFor={"signal"+ i}>{signal}</label>
+                                            (activeSignals.find(s => s.name === signal.name) ?
+                                                "text-success" : "text-danger")}
+                                            htmlFor={"signal"+ i}>{signal.name}</label>
                                     </div>
                                 );
                             })
