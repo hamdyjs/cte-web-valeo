@@ -14,6 +14,7 @@ const MultiCharts: React.FC<{signals: Signal[]}> = (props) => {
                 type: "line",
                 options: {
                     maintainAspectRatio: false,
+                    animation: undefined,
                 },
                 data: {
                     labels: signal.readings.map((reading) => reading.timestamp.toString()),
