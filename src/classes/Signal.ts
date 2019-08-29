@@ -4,11 +4,12 @@ enum SignalType {
 
 class Signal {
     constructor(name: string);
-    constructor(public name: string, public type: SignalType = SignalType.Signal) {}
+    constructor(public name: string, public type: SignalType = SignalType.Signal,
+                public readings: SignalReading[] = []) {}
 }
 
 class SignalReading {
-    constructor(public signal: Signal, public timestamp: number, public value: number) {}
+    constructor(public timestamp: number, public value: number) {}
 }
 
 export default Signal;
