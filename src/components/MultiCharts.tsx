@@ -8,7 +8,7 @@ const MultiCharts: React.FC<{signals: Signal[]}> = (props) => {
         <div>
             {
                 signals.map((signal, i) => (
-                    <div className="card mt-1">
+                    <div className="card mt-1" key={i}>
                         <div className="card-header"><b>{signal.name}</b></div>
                         <div className="card-body">
                             <canvas id={signal.name} width="200" height="50" style={{display: "none"}} />
