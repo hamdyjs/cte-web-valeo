@@ -34,8 +34,9 @@ const Tracer: React.FC = () => {
         let interval = setInterval(() => {
             console.log("Generating readings");
             for (let signal of activeSignals) {
-                signal.readings.push(new SignalReading(Date.now(), Math.random() * 100))
+                signal.readings.push(new SignalReading(Date.now(), Math.random() * 10));
             }
+            setActiveSignals([...activeSignals]);
         }, 3000);
 
         return () => clearInterval(interval);
