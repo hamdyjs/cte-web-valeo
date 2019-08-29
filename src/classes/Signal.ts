@@ -7,4 +7,9 @@ class Signal {
     constructor(public name: string, public type: SignalType = SignalType.Signal) {}
 }
 
+class SignalReading {
+    constructor(public signal: Signal, public timestamp: number, public value: number) {}
+}
+
 export default Signal;
+export {SignalReading};
