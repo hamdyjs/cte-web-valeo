@@ -1,5 +1,5 @@
 import React, {useState, useEffect, ChangeEvent} from "react";
-import Signal from "../classes/Signal";
+import Signal, {SignalReading} from "../classes/Signal";
 import MultiCharts from "./MultiCharts";
 import SingleChart from "./SingleChart";
 
@@ -27,6 +27,19 @@ const Tracer: React.FC = () => {
             setLoading(false);
         }, 500);
     }, []);
+
+    useEffect(() => {
+        // TODO: Integrate with the CTE server
+        console.log("Starting to generate readings");
+        let interval = setInterval(() => {
+            console.log("Generating readings");
+            for (let signal of activeSignals) {
+                signal.readings.push(new SignalReading(Date.now(), Math.random() * 100))
+            }
+        }, 3000);
+
+        return () => clearInterval(interval);
+    }, [activeSignals]);
 
     function onSignalCheckedChange({target: {value, checked}}: ChangeEvent<HTMLInputElement>) {
         let signal = signals.find(s => s.name === value);
