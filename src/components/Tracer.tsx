@@ -1,5 +1,7 @@
 import React, {useState, useEffect, ChangeEvent} from "react";
 import Signal from "../classes/Signal";
+import MultiCharts from "./MultiCharts";
+import SingleChart from "./SingleChart";
 
 enum Mode {
     Single,
@@ -84,6 +86,13 @@ const Tracer: React.FC = () => {
                             </label>
                         </div>
                     </div>
+                </div>
+                <div className="container-fluid mt-2">
+                    {
+                        (mode === Mode.Multi && <MultiCharts signals={activeSignals}/>)
+                        ||
+                        (mode === Mode.Single && <SingleChart signals={activeSignals}/>)
+                    }
                 </div>
             </div>
         </div>
