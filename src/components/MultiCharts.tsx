@@ -15,6 +15,15 @@ const MultiCharts: React.FC<{signals: Signal[]}> = (props) => {
                 options: {
                     maintainAspectRatio: false,
                     animation: undefined,
+                    // scales: {
+                    //     yAxes:[{
+                    //         ticks: {
+                    //             min: 0,
+                    //             max: 10,
+                    //             stepSize: 1,
+                    //         }
+                    //     }],
+                    // },
                 },
                 data: {
                     labels: signal.readings.map((reading) => reading.timestamp.toString()),
@@ -36,7 +45,7 @@ const MultiCharts: React.FC<{signals: Signal[]}> = (props) => {
                     <div className="card mt-1" key={i}>
                         <div className="card-header"><b>{signal.name}</b></div>
                         <div className="card-body">
-                            <canvas id={signal.name} width="200" height="300" />
+                            <canvas id={signal.name} width="150" height="300" />
                         </div>
                     </div>
                 ))
