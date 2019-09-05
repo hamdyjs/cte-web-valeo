@@ -17,6 +17,7 @@ const Tracer: React.FC = () => {
 
     useEffect(() => {
         window.client.getTrace(new window.Empty(), {}, function(err: Error, response: Trace) {
+            if (err) return console.error(err);
             console.log(response.entries);
             let newSignals = [...signals];
             for (let entry of response.entries) {

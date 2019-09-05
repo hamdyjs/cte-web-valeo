@@ -16,5 +16,5 @@ export interface TraceEntry {
 	type: string;
 	value: number;
 	unit: string;
-	valueTextMap: map<number, string>;
+	valueTextMap: {[key: number]: string};
 }

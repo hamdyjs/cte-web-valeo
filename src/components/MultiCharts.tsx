@@ -10,20 +10,25 @@ const MultiCharts: React.FC<{signals: Signal[]}> = (props) => {
     useEffect(() => {
         for (let signal of signals) {
             if (charts[signal.name]) charts[signal.name].destroy();
+
+            // Value text map
+            let scales: Chart.ChartScales = {};
+            if (signal.valueTextMap) {
+                scales.yAxes = [{
+                    ticks: {
+                        min: 0,
+                        max: Object.keys(signal.valueTextMap).length - 1,
+                        callback: (label) => signal.valueTextMap ? signal.valueTextMap[label]: label,
+                    },
+                }];
+            }
+
             charts[signal.name] = new Chart(signal.name, {
                 type: "line",
                 options: {
                     maintainAspectRatio: false,
                     animation: undefined,
-                    // scales: {
-                    //     yAxes:[{
-                    //         ticks: {
-                    //             min: 0,
-                    //             max: 10,
-                    //             stepSize: 1,
-                    //         }
-                    //     }],
-                    // },
+                    scales,
                 },
                 data: {
                     labels: signal.readings.map((reading) => reading.timestamp.toString()),
