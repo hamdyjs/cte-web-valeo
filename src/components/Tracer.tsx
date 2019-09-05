@@ -16,33 +16,20 @@ const Tracer: React.FC = () => {
     let [mode, setMode] = useState(Mode.Multi);
 
     useEffect(() => {
-        // TODO: Integrate with the CTE server
-        setTimeout(() => {
-            setSignals([
-                new Signal("Signal 1"),
-                new Signal("Signal 2"),
-                new Signal("Signal 3"),
-                new Signal("Signal 4"),
-            ]);
-
-            setLoading(false);
-        }, 500);
-    }, []);
-
-    useEffect(() => {
-        // TODO: Integrate with the CTE server
-        let interval = setInterval(() => {
-            if (activeSignals.length > 0) {
-                console.log("Generating readings");
-                for (let signal of activeSignals) {
-                    signal.readings.push(new SignalReading(Date.now(), Math.random() * 10));
+        window.client.getTrace(new window.Empty(), {}, function(err: Error, response: Trace) {
+            console.log(response.entries);
+            let newSignals = [...signals];
+            for (let entry of response.entries) {
+                let signal = newSignals.find(s => s.name === entry.name);
+                if (!signal) {
+                    signal = new Signal(entry.name, entry.unit, entry.type, entry.valueTextMap);
+                    newSignals.push(signal);
                 }
-                setActiveSignals([...activeSignals]);
             }
-        }, 3000);
-
-        return () => clearInterval(interval);
-    }, [activeSignals]);
+            setLoading(false);
+            setSignals(newSignals);
+        });
+    }, []);
 
     function onSignalCheckedChange({target: {value, checked}}: ChangeEvent<HTMLInputElement>) {
         let signal = signals.find(s => s.name === value);
