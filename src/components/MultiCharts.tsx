@@ -31,7 +31,7 @@ const MultiCharts: React.FC<{signals: Signal[]}> = (props) => {
                         data: signal.readings.map((reading) => reading.value),
                         fill: false,
                         borderColor: "rgb(255, 0, 0)",
-                        label: "",
+                        label: signal.unit || "",
                     }],
                 },
             });
