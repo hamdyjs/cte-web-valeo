@@ -55,6 +55,17 @@ const Tracer: React.FC = () => {
     return (
         <div>
             <div className="bg-light border-right" id="sidebar-wrapper">
+                <div className="sidebar-heading">Graph Mode</div>
+                <div className="list-group list-group-flush ml-3">
+                    <label className="radio">
+                        <input type="radio" name="graphMode" id="singleMode" value={Mode.Single} onChange={onModeChange}
+                            checked={mode === Mode.Single}/> Single Mode
+                    </label>
+                    <label className="radio">
+                        <input type="radio" name="graphMode" id="multiMode" value={Mode.Multi} onChange={onModeChange}
+                            checked={mode === Mode.Multi}/> Multi Mode
+                    </label>
+                </div>
                 <div className="sidebar-heading">Signals</div>
                 <div className="list-group list-group-flush">
                     {
@@ -80,21 +91,6 @@ const Tracer: React.FC = () => {
                 </div>
             </div>
             <div id="page-content-wrapper">
-                <div className="container-fluid mt-2">
-                    <div className="card">
-                        <div className="card-header"><b>Graph Mode</b></div>
-                        <div className="card-body">
-                            <label className="radio-inline">
-                                <input type="radio" name="graphMode" id="singleMode" value={Mode.Single} onChange={onModeChange}
-                                    checked={mode === Mode.Single}/> Single Mode
-                            </label>
-                            <label className="radio-inline ml-2">
-                                <input type="radio" name="graphMode" id="multiMode" value={Mode.Multi} onChange={onModeChange}
-                                    checked={mode === Mode.Multi}/> Multi Mode
-                            </label>
-                        </div>
-                    </div>
-                </div>
                 <div className="container-fluid mt-2">
                     {
                         (mode === Mode.Multi && <MultiCharts signals={activeSignals}/>)
