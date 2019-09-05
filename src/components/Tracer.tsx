@@ -2,6 +2,7 @@ import React, {useState, useEffect, ChangeEvent} from "react";
 import Signal, {SignalReading} from "../classes/Signal";
 import MultiCharts from "./MultiCharts";
 import SingleChart from "./SingleChart";
+import { Trace } from "../types/cte-client";
 
 enum Mode {
     Single,
@@ -30,13 +31,14 @@ const Tracer: React.FC = () => {
 
     useEffect(() => {
         // TODO: Integrate with the CTE server
-        console.log("Starting to generate readings");
         let interval = setInterval(() => {
-            console.log("Generating readings");
-            for (let signal of activeSignals) {
-                signal.readings.push(new SignalReading(Date.now(), Math.random() * 10));
+            if (activeSignals.length > 0) {
+                console.log("Generating readings");
+                for (let signal of activeSignals) {
+                    signal.readings.push(new SignalReading(Date.now(), Math.random() * 10));
+                }
+                setActiveSignals([...activeSignals]);
             }
-            setActiveSignals([...activeSignals]);
         }, 3000);
 
         return () => clearInterval(interval);
