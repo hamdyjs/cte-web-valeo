@@ -1,10 +1,7 @@
-enum SignalType {
-    Signal = "signal",
-}
-
 class Signal {
     constructor(name: string, unit: string);
-    constructor(public name: string, public unit: string, public type: SignalType = SignalType.Signal,
+    constructor(name: string, unit: string, type: string, valueTextMap: Map<number, string>);
+    constructor(public name: string, public unit: string, public type: string = "signal",
         public valueTextMap: Map<number, string> | null = null, public readings: SignalReading[] = []) {}
 }
 
