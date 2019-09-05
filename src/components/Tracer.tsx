@@ -25,6 +25,10 @@ const Tracer: React.FC = () => {
                     signal = new Signal(entry.name, entry.unit, entry.type, entry.valueTextMap);
                     newSignals.push(signal);
                 }
+
+                if (entry.timestamp && entry.value) {
+                    signal.readings.push(new SignalReading(entry.timestamp, entry.value));
+                }
             }
             setLoading(false);
             setSignals(newSignals);
