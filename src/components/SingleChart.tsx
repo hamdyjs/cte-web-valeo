@@ -3,7 +3,6 @@ import Signal from "../classes/Signal";
 import Chart from "chart.js";
 import randomColor from "randomcolor";
 
-// TODO: Normalize readings by dividing on the max value received
 // TODO: Customize each signal's y-axis to show actual values
 // TODO: Show actual value of reading in tooltip
 
@@ -27,31 +26,39 @@ const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
         
         let datasets: Chart.ChartDataSets[] = [];
         let scales: Chart.ChartScales = {};
-        let colors = randomColor({count: signals.length, luminosity: "dark", format: "rgb"});
         scales.yAxes = [];
+        let colors = randomColor({count: signals.length, luminosity: "dark", format: "rgb"});
         for (let i in signals) {
             let signal = signals[i];
-            let dataset: Chart.ChartDataSets = {fill: false, label: signal.name};
-            dataset.data = [];
-            dataset.borderColor = colors[i];
+            let values: number[] = [];
 
             for (let timestamp of timestamps) {
                 let value = 0;
                 let reading = signal.readings.find(r => r.timestamp === timestamp);
                 if (reading) value = reading.value;
-                dataset.data.push(value);
+                values.push(value);
             }
 
-            let yAxis: Chart.ChartYAxe = {};
-            yAxis.ticks = {
-                min: Math.min(...(dataset.data as number[])),
-                max: Math.max(...(dataset.data as number[])),
-                backdropColor: colors[i],
-                fontColor: colors[i],
-            };
+            let max = Math.max(...values);
+            values = values.map(v => v / max);
 
-            datasets.push(dataset);
-            scales.yAxes.push(yAxis);
+            datasets.push({
+                data: values,
+                borderColor: colors[i],
+                fill: false,
+                label: signal.name
+            });
+
+            scales.yAxes.push({
+                ticks: {
+                    min: 0,
+                    max: 1,
+                    stepSize: 0.1,
+                    backdropColor: colors[i],
+                    fontColor: colors[i],
+                    callback: v => (v * max).toFixed(2),
+                }
+            });
         }
 
         chart = new Chart("single_chart", {
