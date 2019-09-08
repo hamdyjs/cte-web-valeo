@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Signal from "../classes/Signal";
+import Chart from "chart.js";
 
 // TODO: Implement single charts
 // TODO: Normalize readings by dividing on the max value received
@@ -9,6 +10,55 @@ import Signal from "../classes/Signal";
 const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
     let {signals} = props;
 
+    useEffect(() => {
+        let timestamps: number[] = [];
+        
+        for (let signal of signals) {
+            for (let reading of signal.readings) {
+                if (!timestamps.includes(reading.timestamp)) timestamps.push(reading.timestamp);
+            }
+        }
+        timestamps = timestamps.sort((a, b) => a - b);
+        
+        let datasets: Chart.ChartDataSets[] = [];
+        let scales: Chart.ChartScales = {};
+        scales.yAxes = [];
+        for (let signal of signals) {
+            let dataset: Chart.ChartDataSets = {fill: false, label: signal.name};
+            dataset.data = [];
+            dataset.borderColor = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+
+            for (let timestamp of timestamps) {
+                let value = 0;
+                let reading = signal.readings.find(r => r.timestamp === timestamp);
+                if (reading) value = reading.value;
+                dataset.data.push(value);
+            }
+            
+            let yAxis: Chart.ChartYAxe = {};
+            yAxis.ticks = {
+                min: Math.min(...(dataset.data as number[])),
+                max: Math.max(...(dataset.data as number[])),
+            };
+
+            datasets.push(dataset);
+            scales.yAxes.push(yAxis);
+        }
+
+        new Chart("single_chart", {
+            type: "line",
+            options: {
+                maintainAspectRatio: false,
+                animation: undefined,
+                scales,
+            },
+            data: {
+                labels: timestamps.map(t => t.toString()),
+                datasets,
+            },
+        });
+    }, [signals]);
+
     return (
         <div>
         {
@@ -17,7 +67,7 @@ const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
                 <div className="card mt-1">
                     <div className="card-header"><b>{signals.map((signal) => signal.name).join(", ")}</b></div>
                     <div className="card-body">
-                        <canvas id="single-chart" width="200" height="50" style={{display: "none"}} />
+                        <canvas id="single_chart" width="150" height="300" />
                     </div>
                 </div>
             )
