@@ -11,6 +11,8 @@ const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
     let {signals} = props;
 
     useEffect(() => {
+        if (signals.length === 0) return;
+
         let timestamps: number[] = [];
         
         for (let signal of signals) {
