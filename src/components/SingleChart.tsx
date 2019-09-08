@@ -3,7 +3,6 @@ import Signal from "../classes/Signal";
 import Chart from "chart.js";
 import randomColor from "randomcolor";
 
-// TODO: Customize each signal's y-axis to show actual values
 // TODO: Show actual value of reading in tooltip
 
 let chart: Chart;
@@ -39,29 +38,55 @@ const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
                 values.push(value);
             }
 
-            let max = values[0];
-            for (let v of values)
-                if (!max || (v && v > max)) max = v;
+            let yAxis: Chart.ChartYAxe;
+            if (signal.valueTextMap && Object.keys(signal.valueTextMap).length > 0) {
+                let minKey, maxKey;
+                for (let key in signal.valueTextMap) {
+                    let i = parseInt(key); console.log(i);
+                    if (minKey === undefined || (i < minKey)) minKey = i;
+                    if (maxKey === undefined || (i > maxKey)) maxKey = i;
+                }
 
-            values = values.map(v => (v && max) ? (v / max) : undefined);
+                yAxis = {
+                    id: `y${i}`,
+                    ticks: {
+                        min: minKey,
+                        max: maxKey,
+                        stepSize: 1,
+                        backdropColor: colors[i],
+                        fontColor: colors[i],
+                        callback: (label) => 
+                            signal.valueTextMap && signal.valueTextMap[label] ? signal.valueTextMap[label]: label,
+                    },
+                };
+            } else {
+                let max = values[0];
+                for (let v of values)
+                    if (!max || (v && v > max)) max = v;
 
+                yAxis = {
+                    id: `y${i}`,
+                    ticks: {
+                        min: 0,
+                        max: 1,
+                        stepSize: 0.1,
+                        backdropColor: colors[i],
+                        fontColor: colors[i],
+                        callback: v => max ? (v * max).toFixed(2) : "",
+                    }
+                };
+
+                values = values.map(v => v && max ? (v / max) : undefined);
+            }
+
+            scales.yAxes.push(yAxis);
             datasets.push({
                 data: values,
                 borderColor: colors[i],
                 fill: false,
                 label: signal.name,
                 spanGaps: true,
-            });
-
-            scales.yAxes.push({
-                ticks: {
-                    min: 0,
-                    max: 1,
-                    stepSize: 0.1,
-                    backdropColor: colors[i],
-                    fontColor: colors[i],
-                    callback: v => max ? (v * max).toFixed(2) : "",
-                }
+                yAxisID: `y${i}`,
             });
         }
 
