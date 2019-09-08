@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Signal from "../classes/Signal";
-import Chart, { controllers } from "chart.js";
+import Chart from "chart.js";
 import randomColor from "randomcolor";
 
 // TODO: Normalize readings by dividing on the max value received
