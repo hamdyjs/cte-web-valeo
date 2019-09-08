@@ -7,10 +7,13 @@ import randomColor from "randomcolor";
 // TODO: Customize each signal's y-axis to show actual values
 // TODO: Show actual value of reading in tooltip
 
+let chart: Chart;
+
 const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
     let {signals} = props;
 
     useEffect(() => {
+        if (chart) chart.destroy();
         if (signals.length === 0) return;
 
         let timestamps: number[] = [];
@@ -51,7 +54,7 @@ const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
             scales.yAxes.push(yAxis);
         }
 
-        new Chart("single_chart", {
+        chart = new Chart("single_chart", {
             type: "line",
             options: {
                 maintainAspectRatio: false,
