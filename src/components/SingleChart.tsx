@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Signal from "../classes/Signal";
-import Chart from "chart.js";
+import Chart, { controllers } from "chart.js";
+import randomColor from "randomcolor";
 
 // TODO: Implement single charts
 // TODO: Normalize readings by dividing on the max value received
@@ -22,11 +23,13 @@ const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
         
         let datasets: Chart.ChartDataSets[] = [];
         let scales: Chart.ChartScales = {};
+        let colors = randomColor({count: signals.length, luminosity: "dark", format: "rgb"});
         scales.yAxes = [];
-        for (let signal of signals) {
+        for (let i in signals) {
+            let signal = signals[i];
             let dataset: Chart.ChartDataSets = {fill: false, label: signal.name};
             dataset.data = [];
-            dataset.borderColor = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+            dataset.borderColor = colors[i];
 
             for (let timestamp of timestamps) {
                 let value = 0;
@@ -34,11 +37,13 @@ const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
                 if (reading) value = reading.value;
                 dataset.data.push(value);
             }
-            
+
             let yAxis: Chart.ChartYAxe = {};
             yAxis.ticks = {
                 min: Math.min(...(dataset.data as number[])),
                 max: Math.max(...(dataset.data as number[])),
+                backdropColor: colors[i],
+                fontColor: colors[i],
             };
 
             datasets.push(dataset);
