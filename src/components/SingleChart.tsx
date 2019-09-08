@@ -30,23 +30,27 @@ const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
         let colors = randomColor({count: signals.length, luminosity: "dark", format: "rgb"});
         for (let i in signals) {
             let signal = signals[i];
-            let values: number[] = [];
+            let values: (number | undefined)[] = [];
 
             for (let timestamp of timestamps) {
-                let value = 0;
+                let value;
                 let reading = signal.readings.find(r => r.timestamp === timestamp);
                 if (reading) value = reading.value;
                 values.push(value);
             }
 
-            let max = Math.max(...values);
-            values = values.map(v => v / max);
+            let max = values[0];
+            for (let v of values)
+                if (!max || (v && v > max)) max = v;
+
+            values = values.map(v => (v && max) ? (v / max) : undefined);
 
             datasets.push({
                 data: values,
                 borderColor: colors[i],
                 fill: false,
-                label: signal.name
+                label: signal.name,
+                spanGaps: true,
             });
 
             scales.yAxes.push({
@@ -56,7 +60,7 @@ const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
                     stepSize: 0.1,
                     backdropColor: colors[i],
                     fontColor: colors[i],
-                    callback: v => (v * max).toFixed(2),
+                    callback: v => max ? (v * max).toFixed(2) : "",
                 }
             });
         }
