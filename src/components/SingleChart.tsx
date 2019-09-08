@@ -1,6 +1,11 @@
 import React from "react";
 import Signal from "../classes/Signal";
 
+// TODO: Implement single charts
+// TODO: Normalize readings by dividing on the max value received
+// TODO: Show actual value of reading in tooltip
+// TODO: Provide multi y-axes for each signal
+
 const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
     let {signals} = props;
 
