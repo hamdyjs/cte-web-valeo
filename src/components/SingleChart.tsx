@@ -6,7 +6,7 @@ import randomColor from "randomcolor";
 // TODO: Implement single charts
 // TODO: Normalize readings by dividing on the max value received
 // TODO: Show actual value of reading in tooltip
-// TODO: Provide multi y-axes for each signal
+// TODO: Customize each signal's y-axis to show actual values
 
 const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
     let {signals} = props;
