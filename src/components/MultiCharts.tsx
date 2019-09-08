@@ -2,6 +2,8 @@ import React, {useEffect} from "react";
 import Signal from "../classes/Signal";
 import Chart from "chart.js";
 
+// TODO: All graphs should start from the same timestamp
+
 let charts: {[s: string]: Chart} = {};
 
 const MultiCharts: React.FC<{signals: Signal[]}> = (props) => {
