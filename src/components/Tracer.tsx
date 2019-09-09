@@ -5,13 +5,14 @@ import SingleChart from "./SingleChart";
 import { Trace } from "../types/cte-client";
 
 // TODO: Scrollable graphs when points go over a certain predefined limit
+// TODO: When viewing the last page, automatically scroll to the last page
 
 enum Mode {
     Single,
     Multi,
 }
 
-let timestampsPerPage = 20;
+let timestampsPerPage = 40;
 
 const Tracer: React.FC = () => {
     let [loading, setLoading] = useState(true);
@@ -126,7 +127,8 @@ const Tracer: React.FC = () => {
             <div id="page-content-wrapper">
                 <div className="container-fluid mt-2">
                     {
-                        (mode === Mode.Multi && <MultiCharts signals={activeSignals}/>)
+                        (mode === Mode.Multi &&
+                            <MultiCharts signals={activeSignals} page={page} timestampsPerPage={timestampsPerPage}/>)
                         ||
                         (mode === Mode.Single && <SingleChart signals={activeSignals}/>)
                     }
