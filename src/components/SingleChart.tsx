@@ -102,7 +102,7 @@ const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
                             if (data.datasets === undefined) return "";
 
                             let signal = signals[item.datasetIndex];
-                            
+
                             if (signal.valueTextMap && Object.keys(signal.valueTextMap).length > 0) {
                                 let text = signal.valueTextMap[parseInt(item.value)];
                                 return `${signal.name}: ${text} (${signal.unit})`;

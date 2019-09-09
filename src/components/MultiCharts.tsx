@@ -31,6 +31,22 @@ const MultiCharts: React.FC<{signals: Signal[]}> = (props) => {
                     maintainAspectRatio: false,
                     animation: undefined,
                     scales,
+                    tooltips: {
+                        callbacks: {
+                            label: (item, data) => {
+                                if (item.datasetIndex === undefined) return "";
+                                if (item.value === undefined) return "";
+                                if (data.datasets === undefined) return "";
+                                
+                                if (signal.valueTextMap && Object.keys(signal.valueTextMap).length > 0) {
+                                    let text = signal.valueTextMap[parseInt(item.value)];
+                                    return `${signal.name}: ${text} (${signal.unit})`;
+                                }
+    
+                                return `${signal.name}: ${item.value} (${signal.unit})`;
+                            },
+                        },
+                    },
                 },
                 data: {
                     labels: signal.readings.map((reading) => reading.timestamp.toString()),
