@@ -3,8 +3,6 @@ import Signal from "../classes/Signal";
 import Chart from "chart.js";
 import randomColor from "randomcolor";
 
-// TODO: Show actual value of reading in tooltip
-
 let chart: Chart;
 
 const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
@@ -96,6 +94,26 @@ const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
                 maintainAspectRatio: false,
                 animation: undefined,
                 scales,
+                tooltips: {
+                    callbacks: {
+                        label: (item, data) => {
+                            if (item.datasetIndex === undefined) return "";
+                            if (item.value === undefined) return "";
+                            if (data.datasets === undefined) return "";
+
+                            let signal = signals[item.datasetIndex];
+                            let key = parseInt(item.value);
+                            let label = data.datasets[item.datasetIndex].label;
+
+                            if (signal.valueTextMap && Object.keys(signal.valueTextMap).length > 0) {
+                                let text = signal.valueTextMap[key];
+                                return `${label}: ${text}`;
+                            }
+
+                            return `${label}: ${item.value}`;
+                        },
+                    },
+                },
             },
             data: {
                 labels: timestamps.map(t => t.toString()),
