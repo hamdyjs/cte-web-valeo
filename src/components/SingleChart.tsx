@@ -67,16 +67,16 @@ const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
                 yAxis = {
                     id: `y${i}`,
                     ticks: {
-                        min: 0,
-                        max: 1,
-                        stepSize: 0.1,
+                        // min: 0,
+                        // max: 1,
+                        // stepSize: 0.1,
                         backdropColor: colors[i],
                         fontColor: colors[i],
-                        callback: v => max ? (v * max).toFixed(2) : "",
+                        // callback: v => max ? (v * max).toFixed(2) : "",
                     }
                 };
 
-                values = values.map(v => v && max ? (v / max) : undefined);
+                // values = values.map(v => v && max ? (v / max) : undefined);
             }
 
             scales.yAxes.push(yAxis);
