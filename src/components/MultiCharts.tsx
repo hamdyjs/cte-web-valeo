@@ -10,9 +10,10 @@ const MultiCharts: React.FC<{signals: Signal[]}> = (props) => {
     let {signals} = props;
 
     useEffect(() => {
-        for (let signal of signals) {
-            if (charts[signal.name]) charts[signal.name].destroy();
+        for (let entry of Object.entries(charts)) entry[1].destroy();
+        charts = {};
 
+        for (let signal of signals) {
             // Value text map
             let scales: Chart.ChartScales = {};
             if (signal.valueTextMap) {
