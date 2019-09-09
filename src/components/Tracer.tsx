@@ -68,6 +68,12 @@ const Tracer: React.FC = () => {
                             checked={mode === Mode.Multi}/> Multi Mode
                     </label>
                 </div>
+                <div className="sidebar-heading">Page</div>
+                <div className="btn-toolbar justify-content-between align-middle">
+                    <button type="button" className="btn btn-success float-left ml-3"><span className="fa fa-arrow-left"></span></button>
+                    <span>1 / 1</span>
+                    <button type="button" className="btn btn-success float-right mr-3"><span className="fa fa-arrow-right"></span></button>
+                </div>
                 <div className="sidebar-heading">Signals</div>
                 <div className="list-group list-group-flush">
                     {
