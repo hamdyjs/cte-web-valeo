@@ -86,6 +86,11 @@ const Tracer: React.FC = () => {
                                             (activeSignals.find(s => s.name === signal.name) ?
                                                 "text-success" : "text-danger")}
                                             htmlFor={"signal"+ i}>{signal.name}</label>
+                                        <input className="float-right mr-2" type="color" value={signal.color} onChange={(e) => {
+                                            signal.color = e.target.value;
+                                            setSignals([...signals]);
+                                            setActiveSignals([...activeSignals]);
+                                        }}/>
                                     </div>
                                 );
                             })
