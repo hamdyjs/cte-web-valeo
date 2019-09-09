@@ -30,7 +30,7 @@ const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
             let values: (number | undefined)[] = [];
 
             for (let timestamp of timestamps) {
-                let value;
+                let value: number | undefined = undefined;
                 let reading = signal.readings.find(r => r.timestamp === timestamp);
                 if (reading) value = reading.value;
                 values.push(value);

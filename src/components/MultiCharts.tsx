@@ -2,8 +2,6 @@ import React, {useEffect} from "react";
 import Signal from "../classes/Signal";
 import Chart from "chart.js";
 
-// TODO: All graphs should start from the same timestamp
-
 let charts: {[s: string]: Chart} = {};
 
 const MultiCharts: React.FC<{signals: Signal[]}> = (props) => {
@@ -12,6 +10,12 @@ const MultiCharts: React.FC<{signals: Signal[]}> = (props) => {
     useEffect(() => {
         for (let entry of Object.entries(charts)) entry[1].destroy();
         charts = {};
+
+        let timestamps: number[] = [];
+        for (let signal of signals)
+            for (let reading of signal.readings)
+                if (!timestamps.includes(reading.timestamp)) timestamps.push(reading.timestamp);
+        timestamps.sort((a, b) => a - b);
 
         for (let signal of signals) {
             // Value text map
@@ -24,6 +28,14 @@ const MultiCharts: React.FC<{signals: Signal[]}> = (props) => {
                         callback: (label) => signal.valueTextMap ? signal.valueTextMap[label]: label,
                     },
                 }];
+            }
+
+            let values: (number | undefined)[] = [];
+            for (let timestamp of timestamps) {
+                let value: number | undefined = undefined;
+                let reading = signal.readings.find(r => r.timestamp === timestamp);
+                if (reading) value = reading.value;
+                values.push(value);
             }
 
             charts[signal.name] = new Chart(signal.name, {
@@ -50,12 +62,13 @@ const MultiCharts: React.FC<{signals: Signal[]}> = (props) => {
                     },
                 },
                 data: {
-                    labels: signal.readings.map((reading) => reading.timestamp.toString()),
+                    labels: timestamps.map(t => t.toString()),
                     datasets: [{
-                        data: signal.readings.map((reading) => reading.value),
+                        data: values,
                         fill: false,
                         borderColor: "rgb(255, 0, 0)",
                         label: signal.unit || "",
+                        spanGaps: true,
                     }],
                 },
             });
