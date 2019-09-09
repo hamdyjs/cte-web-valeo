@@ -13,7 +13,7 @@ enum Mode {
 
 const Tracer: React.FC = () => {
     let [loading, setLoading] = useState(true);
-    let [signals, setSignals] = useState(([] as Signal[]));
+    let [signals, setSignals] = useState([] as Signal[]);
     let [activeSignals, setActiveSignals] = useState([] as Signal[]);
     let [mode, setMode] = useState(Mode.Multi);
 
