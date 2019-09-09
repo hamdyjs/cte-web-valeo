@@ -6,6 +6,7 @@ import { Trace } from "../types/cte-client";
 
 // TODO: Scrollable graphs when points go over a certain predefined limit
 // TODO: When viewing the last page, automatically scroll to the last page
+// TODO: Add an input for timestamps per page
 
 enum Mode {
     Single,
