@@ -11,11 +11,15 @@ enum Mode {
     Multi,
 }
 
+let timestampsPerPage = 20;
+
 const Tracer: React.FC = () => {
     let [loading, setLoading] = useState(true);
     let [signals, setSignals] = useState([] as Signal[]);
     let [activeSignals, setActiveSignals] = useState([] as Signal[]);
     let [mode, setMode] = useState(Mode.Multi);
+    let [page, setPage] = useState(1);
+    let [pagesCount, setPagesCount] = useState(1);
 
     useEffect(() => {
         window.client.getTrace(new window.Empty(), {}, function(err: Error, response: Trace) {
@@ -48,6 +52,18 @@ const Tracer: React.FC = () => {
         else if (!checked && found) newActiveSignals = newActiveSignals.filter(s => s.name !== (signal && signal.name));
 
         setActiveSignals(newActiveSignals);
+
+        let pagesCount;
+        if (newActiveSignals.length > 0) {
+            let timestamps: number[] = [];
+            for (let signal of newActiveSignals)
+                for (let reading of signal.readings)
+                    if (!timestamps.includes(reading.timestamp)) timestamps.push(reading.timestamp);
+            pagesCount = Math.ceil(timestamps.length / timestampsPerPage);
+        } else pagesCount = 1;
+
+        setPagesCount(pagesCount);
+        if (page > pagesCount) setPage(pagesCount);
     }
 
     function onModeChange({target: {value, checked}}: ChangeEvent<HTMLInputElement>) {
@@ -70,9 +86,13 @@ const Tracer: React.FC = () => {
                 </div>
                 <div className="sidebar-heading">Page</div>
                 <div className="btn-toolbar justify-content-between align-middle">
-                    <button type="button" className="btn btn-success float-left ml-3"><span className="fa fa-arrow-left"></span></button>
-                    <span>1 / 1</span>
-                    <button type="button" className="btn btn-success float-right mr-3"><span className="fa fa-arrow-right"></span></button>
+                    <button type="button" className="btn btn-success float-left ml-3" onClick={() => {
+                        if (page > 1) setPage(page - 1);
+                    }}><span className="fa fa-arrow-left"></span></button>
+                    <span>{page} / {pagesCount}</span>
+                    <button type="button" className="btn btn-success float-right mr-3" onClick={() => {
+                        if (page < pagesCount) setPage(page + 1);
+                    }}><span className="fa fa-arrow-right"></span></button>
                 </div>
                 <div className="sidebar-heading">Signals</div>
                 <div className="list-group list-group-flush">
