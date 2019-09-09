@@ -107,10 +107,10 @@ const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
 
                             if (signal.valueTextMap && Object.keys(signal.valueTextMap).length > 0) {
                                 let text = signal.valueTextMap[key];
-                                return `${label}: ${text}`;
+                                return `${label}: ${text} (${signal.unit})`;
                             }
 
-                            return `${label}: ${item.value}`;
+                            return `${label}: ${item.value} (${signal.unit})`;
                         },
                     },
                 },
