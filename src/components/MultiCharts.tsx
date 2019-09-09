@@ -66,7 +66,7 @@ const MultiCharts: React.FC<{signals: Signal[]}> = (props) => {
                     datasets: [{
                         data: values,
                         fill: false,
-                        borderColor: "rgb(255, 0, 0)",
+                        borderColor: signal.color,
                         label: signal.unit || "",
                         spanGaps: true,
                     }],

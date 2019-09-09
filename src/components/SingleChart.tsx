@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import Signal from "../classes/Signal";
 import Chart from "chart.js";
-import randomColor from "randomcolor";
 
 let chart: Chart;
 
@@ -24,7 +23,6 @@ const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
         let datasets: Chart.ChartDataSets[] = [];
         let scales: Chart.ChartScales = {};
         scales.yAxes = [];
-        let colors = randomColor({count: signals.length, luminosity: "dark", format: "rgb"});
         for (let i in signals) {
             let signal = signals[i];
             let values: (number | undefined)[] = [];
@@ -51,8 +49,7 @@ const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
                         min: minKey,
                         max: maxKey,
                         stepSize: 1,
-                        backdropColor: colors[i],
-                        fontColor: colors[i],
+                        fontColor: signal.color,
                         callback: (label) => 
                             signal.valueTextMap && signal.valueTextMap[label] ? signal.valueTextMap[label]: label,
                     },
@@ -68,8 +65,7 @@ const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
                         // min: 0,
                         // max: 1,
                         // stepSize: 0.1,
-                        backdropColor: colors[i],
-                        fontColor: colors[i],
+                        fontColor: signal.color,
                         // callback: v => max ? (v * max).toFixed(2) : "",
                     }
                 };
@@ -80,7 +76,7 @@ const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
             scales.yAxes.push(yAxis);
             datasets.push({
                 data: values,
-                borderColor: colors[i],
+                borderColor: signal.color,
                 fill: false,
                 label: signal.name,
                 spanGaps: true,

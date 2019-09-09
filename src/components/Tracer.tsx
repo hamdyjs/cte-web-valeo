@@ -5,7 +5,6 @@ import SingleChart from "./SingleChart";
 import { Trace } from "../types/cte-client";
 
 // TODO: Scrollable graphs when points go over a certain predefined limit
-// TODO: Color option for multi mode or implement for both modes
 
 enum Mode {
     Single,
