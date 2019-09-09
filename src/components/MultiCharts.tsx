@@ -30,8 +30,15 @@ const MultiCharts: React.FC<{signals: Signal[], page: number, timestampsPerPage:
                         min: 0,
                         max: Object.keys(signal.valueTextMap).length - 1,
                         callback: (label) => signal.valueTextMap ? signal.valueTextMap[label]: label,
+                        fontColor: signal.color,
                     },
                 }];
+            } else {
+                scales.yAxes = [{
+                    ticks: {
+                        fontColor: signal.color,
+                    }
+                }]
             }
 
             let values: (number | undefined)[] = [];
