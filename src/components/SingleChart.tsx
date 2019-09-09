@@ -42,7 +42,7 @@ const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
             if (signal.valueTextMap && Object.keys(signal.valueTextMap).length > 0) {
                 let minKey, maxKey;
                 for (let key in signal.valueTextMap) {
-                    let i = parseInt(key); console.log(i);
+                    let i = parseInt(key);
                     if (minKey === undefined || (i < minKey)) minKey = i;
                     if (maxKey === undefined || (i > maxKey)) maxKey = i;
                 }
