@@ -4,8 +4,8 @@ import Chart from "chart.js";
 
 let charts: {[s: string]: Chart} = {};
 
-const MultiCharts: React.FC<{signals: Signal[]}> = (props) => {
-    let {signals} = props;
+const MultiCharts: React.FC<{signals: Signal[], page: number, timestampsPerPage: number}> = (props) => {
+    let {signals, page, timestampsPerPage} = props;
 
     useEffect(() => {
         for (let entry of Object.entries(charts)) entry[1].destroy();
@@ -16,6 +16,10 @@ const MultiCharts: React.FC<{signals: Signal[]}> = (props) => {
             for (let reading of signal.readings)
                 if (!timestamps.includes(reading.timestamp)) timestamps.push(reading.timestamp);
         timestamps.sort((a, b) => a - b);
+
+        let start = (page - 1) * timestampsPerPage;
+        let end = start + timestampsPerPage;
+        timestamps = timestamps.slice(start, end);
 
         for (let signal of signals) {
             // Value text map
@@ -73,7 +77,7 @@ const MultiCharts: React.FC<{signals: Signal[]}> = (props) => {
                 },
             });
         }
-    }, [signals]);
+    }, [signals, page, timestampsPerPage]);
 
     return (
         <div>

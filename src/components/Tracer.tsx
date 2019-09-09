@@ -130,7 +130,8 @@ const Tracer: React.FC = () => {
                         (mode === Mode.Multi &&
                             <MultiCharts signals={activeSignals} page={page} timestampsPerPage={timestampsPerPage}/>)
                         ||
-                        (mode === Mode.Single && <SingleChart signals={activeSignals}/>)
+                        (mode === Mode.Single &&
+                            <SingleChart signals={activeSignals} page={page} timestampsPerPage={timestampsPerPage}/>)
                     }
                 </div>
             </div>

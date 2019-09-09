@@ -4,8 +4,8 @@ import Chart from "chart.js";
 
 let chart: Chart;
 
-const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
-    let {signals} = props;
+const SingleChart: React.FC<{signals: Signal[], page: number, timestampsPerPage: number}> = (props) => {
+    let {signals, page, timestampsPerPage} = props;
 
     useEffect(() => {
         if (chart) chart.destroy();
@@ -19,6 +19,10 @@ const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
             }
         }
         timestamps = timestamps.sort((a, b) => a - b);
+
+        let start = (page - 1) * timestampsPerPage;
+        let end = start + timestampsPerPage;
+        timestamps = timestamps.slice(start, end);
         
         let datasets: Chart.ChartDataSets[] = [];
         let scales: Chart.ChartScales = {};
@@ -114,7 +118,7 @@ const SingleChart: React.FC<{signals: Signal[]}> = (props) => {
                 datasets,
             },
         });
-    }, [signals]);
+    }, [signals, page, timestampsPerPage]);
 
     return (
         <div>
